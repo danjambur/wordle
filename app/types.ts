@@ -1,3 +1,7 @@
 export type GameStatus = "won" | "lost" | "playing";
-export type LetterStatus = "correct" | "miss " | "absent";
+export enum LetterStatus {
+  Correct = "correct",
+  Miss = "miss",
+  Absent = "absent",
+}
 export type CharGuess = { char: string; status: LetterStatus };
