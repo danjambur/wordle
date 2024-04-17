@@ -14,6 +14,7 @@ export const meta: MetaFunction = () => {
     { name: "description", content: "Welcome to Wordle! Guess the word!" },
   ];
 };
+// TODO: Tidy up this file
 export const loader: LoaderFunction = async () => {
   try {
     let res = await fetch(
@@ -25,7 +26,6 @@ export const loader: LoaderFunction = async () => {
     let data = await res.json();
     return json(data);
   } catch (error) {
-    // Handle errors here
     console.error("Fetch Error: ", error);
     return json({ error: error.message }, { status: 500 });
   }
