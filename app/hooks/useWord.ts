@@ -1,7 +1,7 @@
 import { useLoaderData } from "@remix-run/react";
 
 export function useWord() {
-  const word = useLoaderData();
-  const wordled = word[0].toUpperCase().split("");
+  const word: [string] = useLoaderData();
+  const wordled = word[0].toUpperCase();
   return wordled;
 }
