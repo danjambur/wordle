@@ -22,7 +22,7 @@ export function useGame() {
 
   useEffect(() => {
     const inputElement = inputRef.current;
-    if (inputElement) {
+    if (inputElement && !modalState.showModal) {
       const handleBlur = () => {
         inputElement.focus();
       };
@@ -31,7 +31,7 @@ export function useGame() {
         inputElement.removeEventListener("blur", handleBlur);
       };
     }
-  }, []);
+  }, [modalState.showModal]);
 
   const countOccurrences = (str: string, char: string): number => {
     return str.split("").filter((c) => c === char).length;
