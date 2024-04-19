@@ -1,10 +1,10 @@
 import { useWord } from "~/hooks/useWord";
 import Tile from "~/components/Tile";
-import { LetterStatus } from "~/types";
 import { useState } from "react";
 import { Form } from "@remix-run/react";
-import { Input, Modal } from "react-aria-components";
-import { Tiles, ModalState } from "~/types";
+import { Input } from "react-aria-components";
+import { Tiles, ModalState, LetterStatus } from "~/types";
+import Modal from "~/components/Modal";
 
 function WordTiles() {
   const answer = "APPLE";
@@ -15,6 +15,8 @@ function WordTiles() {
     showModal: false,
     isSuccess: false,
   });
+
+  let [isOpen, setOpen] = useState(false);
 
   const countOccurrences = (str: string, char: string): number => {
     return str.split("").filter((c) => c === char).length;
@@ -91,37 +93,40 @@ function WordTiles() {
 
   return (
     <>
-      <Form onSubmit={handleSubmit}>
-        <Input
-          //  we want to make sure the user focuses this input.
-          // eslint-disable-next-line jsx-a11y/no-autofocus
-          autoFocus={true}
-          type="text"
-          maxLength={5}
-          value={inputValue}
-          onChange={handleInputChange}
-          tabIndex={0}
-          className="bg-transparent border-0 outline-none h-0 w-0 opacity-0"
-        />
-        <div className="justify-center items-center">
-          {tiles.map((row, rowIndex) => (
-            <div key={rowIndex} className="grid grid-cols-5 gap-x-[10px]">
-              {row.map((tile, colIndex) => (
-                <Tile key={colIndex} status={tile.status}>
-                  {tile.char}
-                </Tile>
-              ))}
-            </div>
-          ))}
-        </div>
-      </Form>
-      {modalState.showModal && (
-        <Modal isOpen={modalState.showModal}>
-          {modalState.isSuccess
-            ? "Congratulations, you won!"
-            : "Sorry, you lost. Try again."}
-        </Modal>
-      )}
+      <div className="absolute left-1/2 translate-x-[-50%] top-1/5 md:top-[160px]">
+        <Form onSubmit={handleSubmit}>
+          <Input
+            //  we want to make sure the user focuses this input.
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus={true}
+            type="text"
+            maxLength={5}
+            value={inputValue}
+            onChange={handleInputChange}
+            tabIndex={0}
+            className="bg-transparent border-0 outline-none h-0 w-0 opacity-0"
+          />
+          <div className="justify-center items-center">
+            {tiles.map((row, rowIndex) => (
+              <div key={rowIndex} className="grid grid-cols-5 gap-x-[10px]">
+                {row.map((tile, colIndex) => (
+                  <Tile key={colIndex} status={tile.status}>
+                    {tile.char}
+                  </Tile>
+                ))}
+              </div>
+            ))}
+          </div>
+        </Form>
+      </div>
+      <Modal
+        isOpen={modalState.showModal}
+        onOpenChange={(isOpen) =>
+          setModalState({ ...modalState, showModal: isOpen })
+        }
+      >
+        <div>hello</div>
+      </Modal>
     </>
   );
 }

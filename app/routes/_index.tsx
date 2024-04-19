@@ -3,8 +3,6 @@ import { useLocale } from "react-aria-components";
 import { useLoaderData } from "@remix-run/react";
 import { json, LoaderFunction } from "@remix-run/node";
 import WordTiles from "~/components/WordTiles";
-import { ModalProvider } from "@react-aria/overlays";
-import Grid from "~/components/Grid";
 import type { GameStatus, CharGuess } from "~/types";
 export const meta: MetaFunction = () => {
   return [
@@ -41,13 +39,11 @@ export default function Index() {
         dir={direction}
         className="bg-gradient-to-b from-[#212226] to-[#000000] text-white min-h-screen"
       >
-        <Grid>
-          {/* this could be replaced with i18n and based on the locale, get the error message from the language.json file */}
-          <p>
-            Sorry, an error occurred while loading the game. Please try again
-            later.
-          </p>
-        </Grid>
+        {/* this could be replaced with i18n and based on the locale, get the error message from the language.json file */}
+        <p>
+          Sorry, an error occurred while loading the game. Please try again
+          later.
+        </p>
       </div>
     );
   }
@@ -57,11 +53,7 @@ export default function Index() {
       dir={direction}
       className="bg-gradient-to-b from-[#212226] to-[#000000] text-white min-h-screen"
     >
-      <ModalProvider>
-        <Grid>
-          <WordTiles />
-        </Grid>
-      </ModalProvider>
+      <WordTiles />
     </div>
   );
 }
