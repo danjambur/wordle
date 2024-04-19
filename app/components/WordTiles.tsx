@@ -8,7 +8,6 @@ import { useGame } from "~/hooks/useGame";
 function WordTiles() {
   const {
     tiles,
-    currentRow,
     inputValue,
     modalState,
     inputRef,
