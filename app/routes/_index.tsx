@@ -3,7 +3,6 @@ import { useLocale } from "react-aria-components";
 import { useLoaderData } from "@remix-run/react";
 import { json, LoaderFunction } from "@remix-run/node";
 import WordTiles from "~/components/WordTiles";
-import type { GameStatus, CharGuess } from "~/types";
 export const meta: MetaFunction = () => {
   return [
     { title: "Wordle | Remix Wordle Game" },
@@ -21,7 +20,7 @@ export const loader: LoaderFunction = async () => {
     }
     let data = await res.json();
     return json(data);
-  } catch (error) {
+  } catch (error: any) {
     console.error("Fetch Error: ", error);
     return json({ error: error.message }, { status: 500 });
   }

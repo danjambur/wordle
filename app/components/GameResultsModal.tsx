@@ -1,7 +1,6 @@
 import { Button } from "react-aria-components";
 
 interface GameResultModalProps {
-  isSuccess: boolean;
   resetGame: () => void;
   emoji: string;
   title: string;

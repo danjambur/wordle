@@ -2,13 +2,13 @@ import { useWord } from "~/hooks/useWord";
 import Tile from "~/components/Tile";
 import { useState, useEffect, useRef } from "react";
 import { Form } from "@remix-run/react";
-import { Input, Button } from "react-aria-components";
+import { Input } from "react-aria-components";
 import { Tiles, ModalState, LetterStatus } from "~/types";
 import Modal from "~/components/Modal";
 import GameResultModal from "~/components/GameResultsModal";
 
 function WordTiles() {
-  const answer = "APPLE";
+  const answer = useWord();
   const [tiles, setTiles] = useState<Tiles>(createInitialTiles());
   const [currentRow, setCurrentRow] = useState(0);
   const [inputValue, setInputValue] = useState("");
