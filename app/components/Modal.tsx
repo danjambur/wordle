@@ -10,8 +10,8 @@ interface ModalOverlayProps extends AriaModalOverlayProps {
 
 function Modal({ children, ...props }: ModalOverlayProps) {
   return (
-    <AriaModal className="bg-[#050606] text-white" {...props}>
-      <Dialog className="flex flex-col items-center p-5 gap-4 bg-[#3F3A3A] bg-opacity-60 backdrop-blur-md rounded-lg">
+    <AriaModal className="bg-[#050606] text-[#FCFCFC]" {...props}>
+      <Dialog className="flex flex-col items-center p-5 gap-4 bg-[#3F3A3A] bg-opacity-60 backdrop-blur-md rounded-lg max-w-[360px]">
         {children}
       </Dialog>
     </AriaModal>

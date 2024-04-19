@@ -1,10 +1,11 @@
 import { useWord } from "~/hooks/useWord";
 import Tile from "~/components/Tile";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Form } from "@remix-run/react";
-import { Input } from "react-aria-components";
+import { Input, Button } from "react-aria-components";
 import { Tiles, ModalState, LetterStatus } from "~/types";
 import Modal from "~/components/Modal";
+import GameResultModal from "~/components/GameResultsModal";
 
 function WordTiles() {
   const answer = "APPLE";
@@ -16,7 +17,28 @@ function WordTiles() {
     isSuccess: false,
   });
 
-  let [isOpen, setOpen] = useState(false);
+  const inputRef = useRef(null);
+
+  // we always want to maintain focus.
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  // if a user clicks away (i.e. to their browser search bar) from the input field, we want to make sure that the input field is focused again.
+  useEffect(() => {
+    const inputElement = inputRef.current;
+    if (inputElement) {
+      const handleBlur = () => {
+        inputElement.focus();
+      };
+      inputElement.addEventListener("blur", handleBlur);
+      return () => {
+        inputElement.removeEventListener("blur", handleBlur);
+      };
+    }
+  }, []);
 
   const countOccurrences = (str: string, char: string): number => {
     return str.split("").filter((c) => c === char).length;
@@ -90,21 +112,26 @@ function WordTiles() {
     }
     return LetterStatus.Absent;
   }
+  const resetGame = () => {
+    setModalState({ showModal: false, isSuccess: false });
+    setCurrentRow(0);
+    setInputValue("");
+    setTiles(createInitialTiles());
+  };
 
   return (
     <>
-      <div className="absolute left-1/2 translate-x-[-50%] top-1/5 md:top-[160px]">
+      <div className="absolute left-1/2 translate-x-[-50%] w-full sm:w-auto top-1/5 md:top-[160px]">
         <Form onSubmit={handleSubmit}>
           <Input
-            //  we want to make sure the user focuses this input.
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus={true}
+            //  we want to make sure the user focuses this input using the ref, and the useEffect.
+            ref={inputRef}
             type="text"
             maxLength={5}
             value={inputValue}
             onChange={handleInputChange}
-            tabIndex={0}
             className="bg-transparent border-0 outline-none h-0 w-0 opacity-0"
+            aria-label="Enter your guess"
           />
           <div className="justify-center items-center">
             {tiles.map((row, rowIndex) => (
@@ -119,13 +146,28 @@ function WordTiles() {
           </div>
         </Form>
       </div>
+
       <Modal
         isOpen={modalState.showModal}
-        onOpenChange={(isOpen) =>
-          setModalState({ ...modalState, showModal: isOpen })
-        }
+        onOpenChange={resetGame}
+        isDismissable
       >
-        <div>hello</div>
+        {modalState.showModal &&
+          (modalState.isSuccess ? (
+            <GameResultModal
+              resetGame={resetGame}
+              emoji="🏆"
+              title="You're a Winner, Champ!"
+              message="Congrats! You've just crushed it and won the game. Now, bask in your glory and celebrate like a boss! 🎉"
+            />
+          ) : (
+            <GameResultModal
+              resetGame={resetGame}
+              emoji="🙈"
+              title="Oops! Tough Luck, But Don't Give Up!"
+              message="You didn't quite make it this time, but hey, no worries! Give it another shot, and who knows, the next round might be your moment of glory! Keep going, champ! 💪🎮"
+            />
+          ))}
       </Modal>
     </>
   );
