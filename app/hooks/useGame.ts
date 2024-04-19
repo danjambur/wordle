@@ -3,7 +3,7 @@ import { Tiles, ModalState, LetterStatus } from "~/types";
 import { useWord } from "~/hooks/useWord";
 
 export function useGame() {
-  const answer = useWord();
+  const [answer, setAnswer] = useState(useWord());
   const [tiles, setTiles] = useState<Tiles>(createInitialTiles());
   const [currentRow, setCurrentRow] = useState(0);
   const [inputValue, setInputValue] = useState("");
@@ -114,6 +114,7 @@ export function useGame() {
     setCurrentRow(0);
     setInputValue("");
     setTiles(createInitialTiles());
+    setAnswer(useWord());
   };
 
   return {

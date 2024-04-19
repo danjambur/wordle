@@ -1,4 +1,4 @@
-import { Button } from "react-aria-components";
+import { Button, Heading } from "react-aria-components";
 
 interface GameResultModalProps {
   resetGame: () => void;
@@ -17,7 +17,11 @@ const GameResultModal: React.FC<GameResultModalProps> = ({
     // the font is not set to SF display as this is only licensed for Apple devices.
     <div className="flex flex-col items-center text-center p-5 gap-4">
       <h1 className="text-[64px] font-bold">{emoji}</h1>
-      <h2 className="font-extrabold">{title}</h2>
+
+      <Heading slot="title" className="font-extrabold">
+        {title}
+      </Heading>
+
       <p className="text-lg mb-2">{message}</p>
       <Button
         onPress={resetGame}
