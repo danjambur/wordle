@@ -4,6 +4,7 @@ import { useWord } from "~/hooks/useWord";
 
 export function useGame() {
   const answer = useWord();
+  console.log(answer);
   const [tiles, setTiles] = useState<Tiles>(createInitialTiles());
   const [currentRow, setCurrentRow] = useState(0);
   const [inputValue, setInputValue] = useState("");
@@ -32,10 +33,6 @@ export function useGame() {
       };
     }
   }, [modalState.showModal]);
-
-  const countOccurrences = (str: string, char: string): number => {
-    return str.split("").filter((c) => c === char).length;
-  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
@@ -86,6 +83,15 @@ export function useGame() {
     return newTiles;
   }
 
+  // This function counts the number of occurrences of a specific character in a string.
+  const countOccurrences = (str: string, char: string): number => {
+    return str.split("").filter((c) => c === char).length;
+  };
+
+  // This function determines the status of a character in a guessed word.
+  // It checks if the character is in the correct position (Correct),
+  // present in the answer but not in the correct position (Miss),
+  // or not present in the answer at all (Absent).
   function getTileStatus(
     char: string,
     index: number,
@@ -96,8 +102,8 @@ export function useGame() {
     }
     if (
       answer.includes(char) &&
-      countOccurrences(guess.slice(0, index + 1).join(""), char) <=
-        countOccurrences(answer.slice(0, index + 1), char)
+      countOccurrences(answer, char) >
+        countOccurrences(guess.slice(0, index).join(""), char)
     ) {
       return LetterStatus.Miss;
     }
