@@ -4,7 +4,6 @@ import { useWord } from "~/hooks/useWord";
 
 export function useGame() {
   const answer = useWord();
-  console.log(answer);
   const [tiles, setTiles] = useState<Tiles>(createInitialTiles());
   const [currentRow, setCurrentRow] = useState(0);
   const [inputValue, setInputValue] = useState("");
