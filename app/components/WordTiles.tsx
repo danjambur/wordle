@@ -45,10 +45,13 @@ function WordTiles() {
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // it would also be good to validate the input to make sure that numbers / and other characters are not entered.
-    setInputValue(event.target.value);
-    const guess = event.target.value.toUpperCase().split("");
-    setTiles((prevTiles) => updateTilesWithGuess(prevTiles, guess));
+    const inputValue = event.target.value;
+    // Check if the input value is alphabetic
+    if (/^[a-zA-Z]*$/g.test(inputValue)) {
+      setInputValue(inputValue);
+      const guess = inputValue.toUpperCase().split("");
+      setTiles((prevTiles) => updateTilesWithGuess(prevTiles, guess));
+    }
   };
 
   // Function to handle form submission
