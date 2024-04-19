@@ -31,7 +31,10 @@ function WordTiles() {
           />
           <div className="justify-center items-center">
             {tiles.map((row, rowIndex) => (
-              <div key={rowIndex} className="grid grid-cols-5 gap-x-[10px]">
+              <div
+                key={rowIndex}
+                className="grid grid-flow-row grid-cols-5 gap-x-[10px]"
+              >
                 {row.map((tile, colIndex) => (
                   <Tile key={colIndex} status={tile.status}>
                     {tile.char}
